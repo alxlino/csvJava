@@ -10,27 +10,35 @@ public class UsaMassa {
 		
 		massa.usaMassaDados();
 		
+		System.exit(0);
+		
 	}
 	
 	
 	private void usaMassaDados() {
 		
 		CarregaDados carregaDadosCSV = new CarregaDados();
-		carregaDadosCSV.iniciaCarregaDados();
+		carregaDadosCSV.inicializa();
+		String[] arrayAtualizado = new String[CarregaDados.quantidadeLinhas];
 		
-		//começar i = 1 pois primeira linha(0) é o nome da coluna
-		for (int i = 1; i < CarregaDados.quantidadeLinhas; i++) {
+		//começar i = 1 pois a primeira linha(0) é o nome da coluna
+		for (int i = 0; i < CarregaDados.quantidadeLinhas; i++) {
 			
-			System.out.println(CarregaDados.funcional[i]);
-			System.out.println(CarregaDados.senha[i]);
-			System.out.println(CarregaDados.servico[i]);
-			System.out.println(CarregaDados.horas[i]);
-			System.out.println(CarregaDados.status[i]);
+			if (i == 0) {
+				arrayAtualizado[i] = "funcional;senha;servico;horas;status";
+				i++;
+			}
 			
+			System.out.println(CarregaDados.funcional[i] + ";" + CarregaDados.senha[i] + ";" +
+								CarregaDados.servico[i] + ";" + CarregaDados.horas[i] + ";" + 
+								CarregaDados.status[i]);
+			
+			arrayAtualizado[i] = CarregaDados.funcional[i] + ";" + CarregaDados.senha[i] + ";" +
+								 CarregaDados.servico[i] + ";" + CarregaDados.horas[i] + ";" + 
+								 "ATUALIZADO";
 		}
-		
-		
-		
+		carregaDadosCSV.guardaArrayNovoArquivo(arrayAtualizado);
+		carregaDadosCSV.exibeArquivoAtualizado();
 	}
 
 }

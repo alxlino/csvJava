@@ -26,16 +26,16 @@ public class CarregaCSV {
 
 	private void pegaCaminhoCSV() {
 
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource("massa/Pasta1.csv").getFile());
+		//ClassLoader classLoader = getClass().getClassLoader();
+		//File file = new File(classLoader.getResource("massa/Pasta1.csv").getFile());
 
-		System.out.println(file.getPath());
-		System.out.println(file.getAbsolutePath());
-		System.out.println(arquivoCSV);
+		//System.out.println(file.getPath());
+		//System.out.println(file.getAbsolutePath());
+		//System.out.println(arquivoCSV);
 
-		arquivoCSV = file.getPath();
+		//arquivoCSV = file.getPath();
 
-		arquivoCSV = arquivoCSV.replace("%20", " ");
+		//arquivoCSV = arquivoCSV.replace("%20", " ");
 
 		System.out.println(arquivoCSV);
 
@@ -51,7 +51,7 @@ public class CarregaCSV {
 
 			apontamentos = new String[qtdeLinhasArquivo][numeroColunasCSV];
 			
-			iniciarConteudoCSV();
+			reiniciarConteudoCSV();
 
 			int i = 0;
 			
@@ -87,13 +87,13 @@ public class CarregaCSV {
 	}
 
 	private int pegaNumTotalLinhasCSV() throws FileNotFoundException {
-		iniciarConteudoCSV();
+		reiniciarConteudoCSV();
 		Stream<String> linhasCSV = conteudoCSV.lines();
 		int qtdeLinhasArquivo = (int) linhasCSV.count();
 		return qtdeLinhasArquivo;
 	}
 
-	private void iniciarConteudoCSV() throws FileNotFoundException {
+	private void reiniciarConteudoCSV() throws FileNotFoundException {
 		pegaCaminhoCSV();
 		conteudoCSV = null;
 		conteudoCSV = new BufferedReader(new FileReader(arquivoCSV));

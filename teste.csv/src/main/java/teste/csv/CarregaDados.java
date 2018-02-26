@@ -1,5 +1,7 @@
 package teste.csv;
 
+import tests.WriterTest;
+
 public class CarregaDados {
 
 	public static String[] funcional;
@@ -8,25 +10,27 @@ public class CarregaDados {
 	public static String[] horas;
 	public static String[] status;
 	public static int quantidadeLinhas;
+	public static int numeroColunas = CarregaCSV.numeroColunasCSV;
 	private static final int colunaCampoFuncional = 0;
 	private static final int colunaCampoSenha = 1;
 	private static final int colunaCampoServico = 2;
 	private static final int colunaCampoHoras = 3;
 	private static final int colunaCampoStatus = 4;
+	public static String[] arrayAtualizado;
 
 	public static void main(String[] args) {
 		CarregaDados carregaDados = new CarregaDados();
-		carregaDados.iniciaCarregaDados();
+		carregaDados.inicializa();
 		System.exit(0); // ERROR: JDWP Unable to get JNI 1.2 environment, jvm->GetEnv() return code = -2
-						// JDWP exit error AGENT_ERROR_NO_JNI_ENV(183): [util.c:840]
+						 //JDWP exit error AGENT_ERROR_NO_JNI_ENV(183): [util.c:840]
 	}
 
-	public void iniciaCarregaDados() {
+	public void inicializa() {
 
 		CarregaCSV carregaCSV = new CarregaCSV();
 
 		String matriz[][] = carregaCSV.leituraCSV();
-
+		
 		quantidadeLinhas = matriz.length;
 
 		funcional = new String[quantidadeLinhas];
@@ -58,6 +62,20 @@ public class CarregaDados {
 		}
 
 		return camposCSV;
+	}
+	
+	public void guardaArrayNovoArquivo(String[] arqAtualizado) {
+		arrayAtualizado = new String[quantidadeLinhas];
+		arrayAtualizado = arqAtualizado;
+		WriterTest.gravarCSV();
+	}
+
+	public void exibeArquivoAtualizado() {
+		for (int i = 0; i < arrayAtualizado.length; i++) {
+			System.out.println(arrayAtualizado[i]);
+		}
+	
+		arrayAtualizado = null;
 	}
 
 }
