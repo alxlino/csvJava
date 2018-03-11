@@ -5,9 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -36,22 +36,21 @@ public class TelaAplicativo {
 		
 		if (retorno == JFileChooser.APPROVE_OPTION) {
 			caminho = chooser.getSelectedFile();
-			JOptionPane.showMessageDialog(null, "OK!!  | " + caminho.getPath() + " | " + opcao);
+			JOptionPane.showMessageDialog(
+					null, "OK!!  | " + caminho.getPath() + " | " + opcao,
+					"Sucesso", 
+					JOptionPane.INFORMATION_MESSAGE,
+					new ImageIcon("D:\\ALEXANDRE\\DOWNLOADS\\sucesso.png"));
 		} else if(retorno == JFileChooser.CANCEL_OPTION) {
-			JOptionPane.showMessageDialog(null, "cancela!");
+			JOptionPane.showMessageDialog(null, "Ação Cancelada pelo Usuário", "Cancelamento", JOptionPane.WARNING_MESSAGE);
 		}else {
-			JOptionPane.showMessageDialog(null, "teste!");
+			JOptionPane.showMessageDialog(null, "Erro inesperado!", "*** ERRO ***", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	
 	public void constroiTela() {
 		
-		panLeft.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		panRigth.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		panSouth.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		
-		
+		atribuirBordasDosPaineis();
 		preparaJanela();
 		preparaPainelPrincipal();
 		preparaOpcaoValidaLogin();
@@ -63,13 +62,17 @@ public class TelaAplicativo {
 		
 	}
 
+	private void atribuirBordasDosPaineis() {
+		panLeft.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		panRigth.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		panSouth.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+	}
 
 	private void preparaJanela() {
 		janela = new JFrame("Nome da Janela");
 		janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-
 	private void preparaPainelPrincipal() {
 		painel = new JPanel(new BorderLayout());
 		painel.add(panLeft,BorderLayout.WEST);
@@ -78,24 +81,6 @@ public class TelaAplicativo {
 		janela.add(painel);
 	}
 	
-	private void preparaGrupoOpcoes() {
-		radioGroup.add(radioApontamento);
-		radioGroup.add(radioValidaLogin);
-	}
-	
-	private void preparaOpcaoApontamento() {
-		radioApontamento = new JRadioButton("Apontamento");
-		radioApontamento.setSelected(true);
-		radioApontamento.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				opcaoSelecionada = "Apontamento"; 
-			  }
-		});
-		//painel.add(radioApontamento, BorderLayout.WEST);
-		panRigth.add(radioApontamento);		
-	}
-
-
 	private void preparaOpcaoValidaLogin() {
 		radioValidaLogin = new JRadioButton("Validar Login e Senha");
 		radioValidaLogin.addActionListener(new ActionListener() {
@@ -107,6 +92,43 @@ public class TelaAplicativo {
 		panLeft.add(radioValidaLogin);
 	}
 	
+	private void preparaOpcaoApontamento() {
+		radioApontamento = new JRadioButton("Apontamento");
+		radioApontamento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				opcaoSelecionada = "Apontamento"; 
+			  }
+		});
+		//painel.add(radioApontamento, BorderLayout.WEST);
+		panRigth.add(radioApontamento);		
+	}
+	
+	private void preparaGrupoOpcoes() {
+		radioGroup.add(radioApontamento);
+		radioGroup.add(radioValidaLogin);
+	}
+
+	private void preparaBotaoEscolherCSV() {
+		JButton botaoSelecionarCSV = new JButton("Carregar CSV");
+		botaoSelecionarCSV.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent e) {
+				  try {
+					  
+					  if (radioApontamento.isSelected() == true || radioValidaLogin.isSelected() == true) {
+						  escolheArquivoCSV(opcaoSelecionada);
+					  }else {
+						  JOptionPane.showMessageDialog(null, "Favor escolher uma das opções", 
+								  "Selecionar Opção", JOptionPane.WARNING_MESSAGE);
+					  }
+						  
+				} catch (FileNotFoundException eFile) {
+					eFile.printStackTrace();
+				}
+			  }
+		});
+		panSouth.add(botaoSelecionarCSV, BorderLayout.CENTER);
+	}
+	
 	private void preparaBotaSair() {
 		JButton botaoSair = new JButton("Sair");
 		botaoSair.addActionListener(new ActionListener() {
@@ -115,20 +137,6 @@ public class TelaAplicativo {
 			  }
 		});
 		panSouth.add(botaoSair, BorderLayout.SOUTH);
-	}
-
-	private void preparaBotaoEscolherCSV() {
-		JButton botaoSelecionarCSV = new JButton("Carregar CSV");
-		botaoSelecionarCSV.addActionListener(new ActionListener() {
-			  public void actionPerformed(ActionEvent e) {
-				  try {
-					escolheArquivoCSV(opcaoSelecionada);
-				} catch (FileNotFoundException eFile) {
-					eFile.printStackTrace();
-				}
-			  }
-		});
-		panSouth.add(botaoSelecionarCSV, BorderLayout.CENTER);
 	}
 	
 	private void mostraJanela() {
