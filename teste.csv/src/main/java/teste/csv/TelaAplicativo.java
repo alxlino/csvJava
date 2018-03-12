@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -40,7 +41,8 @@ public class TelaAplicativo {
 					null, "OK!!  | " + caminho.getPath() + " | " + opcao,
 					"Sucesso", 
 					JOptionPane.INFORMATION_MESSAGE,
-					new ImageIcon("D:\\ALEXANDRE\\DOWNLOADS\\sucesso.png"));
+					//new ImageIcon("D:\\ALEXANDRE\\DOWNLOADS\\sucesso.png"));
+					new ImageIcon(getClass().getClassLoader().getResource("images/sucesso.png")));
 		} else if(retorno == JFileChooser.CANCEL_OPTION) {
 			JOptionPane.showMessageDialog(null, "Ação Cancelada pelo Usuário", "Cancelamento", JOptionPane.WARNING_MESSAGE);
 		}else {
@@ -69,16 +71,17 @@ public class TelaAplicativo {
 	}
 
 	private void preparaJanela() {
-		janela = new JFrame("Nome da Janela");
+		janela = new JFrame("Apontamento de Horas SCF");
 		janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	private void preparaPainelPrincipal() {
 		painel = new JPanel(new BorderLayout());
-		painel.add(panLeft,BorderLayout.WEST);
+		//painel.add(panLeft,BorderLayout.WEST);
 		painel.add(panRigth,BorderLayout.EAST);
 		painel.add(panSouth,BorderLayout.SOUTH);
-		janela.add(painel);
+		//janela.add(painel);
+		janela.setContentPane(painel);
 	}
 	
 	private void preparaOpcaoValidaLogin() {
@@ -89,7 +92,7 @@ public class TelaAplicativo {
 			  }
 		});
 		//painel.add(radioValidaLogin, BorderLayout.EAST);
-		panLeft.add(radioValidaLogin);
+		panRigth.add(radioValidaLogin, BorderLayout.CENTER);
 	}
 	
 	private void preparaOpcaoApontamento() {
@@ -100,7 +103,7 @@ public class TelaAplicativo {
 			  }
 		});
 		//painel.add(radioApontamento, BorderLayout.WEST);
-		panRigth.add(radioApontamento);		
+		panRigth.add(radioApontamento, BorderLayout.SOUTH);		
 	}
 	
 	private void preparaGrupoOpcoes() {
@@ -140,8 +143,11 @@ public class TelaAplicativo {
 	}
 	
 	private void mostraJanela() {
+		//janela.add(new JLabel(new ImageIcon("D:\\ALEXANDRE\\DOWNLOADS\\logoRoboSCF_3.png", BorderLayout.EAST)));
+		janela.add(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("images/logoRoboSCF_3.png"), BorderLayout.EAST)));
 		janela.pack();
-		janela.setSize(350, 180);
+		janela.setSize(350, 200);
+		janela.setResizable(false);
 		janela.setVisible(true);
 	}
 
